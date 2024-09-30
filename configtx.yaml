@@ -1,0 +1,60 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/example.com/msp
+
+  - &Org1
+    Name: Org1MSP
+    ID: Org1MSP
+    MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+
+  - &Org2
+    Name: Org2MSP
+    ID: Org2MSP
+    MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+
+Capabilities:
+  Channel: &ChannelCapabilities
+  Orderer: &OrdererCapabilities
+  Application: &ApplicationCapabilities
+
+Application: &ApplicationDefaults
+  Organizations:
+  - *Org1
+  - *Org2
+
+Orderer: &OrdererDefaults
+  OrdererType: solo
+  Addresses:
+    - orderer.example.com:7050
+
+  BatchTimeout:
+    Duration: 2s
+
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+
+  Kafka:
+    Brokers:
+      - kafka0:9092
+
+  Organizations:
+  - *OrdererOrg
+
+Channel: &ChannelDefaults
+  Orderer:
+    <<: *OrdererDefaults
+  Application:
+    <<: *ApplicationDefaults
+
+Profiles:
+  OneOrgChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org1

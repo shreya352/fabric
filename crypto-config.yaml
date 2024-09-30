@@ -1,0 +1,31 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: example.com
+    Specs:
+      - Hostname: orderer
+    Users:
+      Count: 1
+    CA:
+      Hostname: ca
+      Port: 7054
+
+PeerOrgs:
+  - Name: Org1
+    Domain: org1.example.com
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+    CA:
+      Hostname: ca
+      Port: 7054
+
+  - Name: Org2
+    Domain: org2.example.com
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+    CA:
+      Hostname: ca
+      Port: 7054
